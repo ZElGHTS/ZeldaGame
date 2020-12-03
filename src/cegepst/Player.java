@@ -1,6 +1,7 @@
 package cegepst;
 
 import cegepst.engine.Buffer;
+import cegepst.engine.Camera;
 import cegepst.engine.controls.Direction;
 import cegepst.engine.entity.ControllableEntity;
 
@@ -15,22 +16,20 @@ public class Player extends ControllableEntity {
     private int currentAnimationFrame = 1;
     private int nextFrame = ANIMATION_SPEED;
     private int cooldown;
-    private int lastX;
-    private int lastY;
 
     public Player(GamePad gamePad) {
         super(gamePad);
         Animator animator = new Animator();
-        setSpeed(6);
+        setSpeed(4);
+        setOffset(32, 32);
         setDimension(32, 32);
-        LINK_FRAMES = animator.getLinkFrames(width, height);
+        teleport(675, 500);
+        LINK_FRAMES = animator.loadLinkFrames(width, height);
     }
 
     @Override
     public void update() {
         super.update();
-        lastX = x;
-        lastY = y;
         moveAccordingToHandler();
         cycleFrames();
         updateCooldown();
@@ -38,6 +37,8 @@ public class Player extends ControllableEntity {
 
     @Override
     public void draw(Buffer buffer) {
+        final Camera camera = Camera.getInstance();
+        camera.move(x - camera.getHalfScreenX() + offsetX, y - camera.getHalfScreenY() + offsetY);
         if (getDirection() == Direction.UP) {
             buffer.drawImage(LINK_FRAMES.get("upFrames")[currentAnimationFrame], x, y);
         } else if (getDirection() == Direction.DOWN) {
@@ -47,11 +48,6 @@ public class Player extends ControllableEntity {
         } else {
             buffer.drawImage(LINK_FRAMES.get("rightFrames")[currentAnimationFrame], x, y);
         }
-    }
-
-    public void resetCoord() {
-        x = lastX;
-        y = lastY;
     }
 
     public Arrow fire() {
@@ -64,7 +60,7 @@ public class Player extends ControllableEntity {
     }
 
     private void cycleFrames() {
-        if (x != lastX || y != lastY || super.hasMoved()) {
+        if (super.hasMoved()) {
             --nextFrame;
             if (nextFrame == 0) {
                 ++currentAnimationFrame;

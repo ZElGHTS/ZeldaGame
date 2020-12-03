@@ -7,7 +7,10 @@ import java.awt.image.BufferedImage;
 
 public class RenderingEngine {
 
+
     private static RenderingEngine instance;
+    private final int WIDTH = 800;
+    private final int HEIGHT = 600;
     private JPanel panel;
     private Screen screen;
     private BufferedImage bufferedImage;
@@ -32,7 +35,7 @@ public class RenderingEngine {
     }
 
     public Buffer getRenderingBuffer() {
-        bufferedImage = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
+        bufferedImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = bufferedImage.createGraphics();
         graphics.setRenderingHints(getOptimalRenderingHints());
         return new Buffer(graphics);
@@ -47,6 +50,14 @@ public class RenderingEngine {
 
     public void addInputListener(KeyListener listener) {
         panel.addKeyListener(listener);
+    }
+
+    public int getRenderWidth() {
+        return WIDTH;
+    }
+
+    public int getRenderHeight() {
+        return HEIGHT;
     }
 
     private RenderingEngine() {

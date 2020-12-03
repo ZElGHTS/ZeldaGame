@@ -10,6 +10,8 @@ public abstract class StaticEntity {
     protected int y;
     protected int width;
     protected int height;
+    protected int offsetX;
+    protected int offsetY;
 
     public abstract void draw(Buffer buffer);
 
@@ -21,6 +23,11 @@ public abstract class StaticEntity {
     public void setDimension(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    public void setOffset(int x, int y) {
+        this.offsetX = x;
+        this.offsetY = y;
     }
 
     public int getX() {

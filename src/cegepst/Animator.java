@@ -8,15 +8,14 @@ import java.util.HashMap;
 
 public class Animator {
 
-    private final String SPRITE_PATH_LINK = "images/Link.png";
-    private final String SPRITE_PATH_ZELDA = "images/Zelda.png";
     private BufferedImage spriteSheet;
     private Image[] upFrames;
     private Image[] downFrames;
     private Image[] rightFrames;
     private Image[] leftFrames;
 
-    public HashMap<String, Image[]> getLinkFrames(int width, int height) {
+    public HashMap<String, Image[]> loadLinkFrames(int width, int height) {
+        final String SPRITE_PATH_LINK = "images/Link.png";
         HashMap<String, Image[]> linkFrames = new HashMap<>();
         loadSpriteSheet(SPRITE_PATH_LINK);
 
@@ -43,7 +42,8 @@ public class Animator {
         return linkFrames;
     }
 
-    public HashMap<String, Image[]> getZeldaFrames(int width, int height) {
+    public HashMap<String, Image[]> loadZeldaFrames(int width, int height) {
+        final String SPRITE_PATH_ZELDA = "images/Zelda.png";
         HashMap<String, Image[]> zeldaFrames = new HashMap<>();
         loadSpriteSheet(SPRITE_PATH_ZELDA);
 

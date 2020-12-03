@@ -1,19 +1,17 @@
 package cegepst;
 
 import cegepst.engine.Buffer;
-import cegepst.engine.CollidableRepository;
 import cegepst.engine.controls.Direction;
 import cegepst.engine.entity.MovableEntity;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Arrow extends MovableEntity {
 
-    private BufferedImage spriteSheet;
     private final Direction PLAYER_DIRECTION;
+    private BufferedImage spriteSheet;
 
     public Arrow(Player player) {
         loadSpriteSheet();

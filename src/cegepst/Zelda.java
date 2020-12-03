@@ -5,7 +5,6 @@ import cegepst.engine.controls.Direction;
 import cegepst.engine.entity.MovableEntity;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class Zelda extends MovableEntity {
@@ -22,7 +21,7 @@ public class Zelda extends MovableEntity {
         setSpeed(7);
         setDimension(24, 32);
         link = player;
-        ZELDA_FRAMES = animator.getZeldaFrames(width, height);
+        ZELDA_FRAMES = animator.loadZeldaFrames(width, height);
     }
 
     @Override
