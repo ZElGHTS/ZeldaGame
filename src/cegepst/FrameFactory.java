@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class Animator {
+public class FrameFactory {
 
     private BufferedImage spriteSheet;
     private Image[] upFrames;

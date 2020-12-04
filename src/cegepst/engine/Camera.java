@@ -1,10 +1,12 @@
 package cegepst.engine;
 
 public class Camera {
+
     private static Camera instance;
     private final int HALF_SCREEN_X;
     private final int HALF_SCREEN_Y;
-    private int x, y;
+    private int x;
+    private int y;
 
     public static Camera getInstance() {
         if (instance == null) {

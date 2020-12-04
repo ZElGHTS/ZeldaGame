@@ -7,8 +7,8 @@ import java.awt.event.KeyEvent;
 
 public class GamePad extends MovementController {
 
-    private int quitKey = KeyEvent.VK_Q;
-    private int fireKey = KeyEvent.VK_SPACE;
+    private final int quitKey = KeyEvent.VK_ESCAPE;
+    private final int fireKey = KeyEvent.VK_SPACE;
 
     public GamePad() {
         super.bindKey(quitKey);

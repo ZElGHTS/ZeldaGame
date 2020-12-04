@@ -17,11 +17,11 @@ public class Zelda extends MovableEntity {
     private Player link;
 
     public Zelda(Player player) {
-        Animator animator = new Animator();
+        FrameFactory frameFactory = new FrameFactory();
         setSpeed(7);
         setDimension(24, 32);
         link = player;
-        ZELDA_FRAMES = animator.loadZeldaFrames(width, height);
+        ZELDA_FRAMES = frameFactory.loadZeldaFrames(width, height);
     }
 
     @Override

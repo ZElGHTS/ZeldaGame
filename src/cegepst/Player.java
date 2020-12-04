@@ -19,12 +19,12 @@ public class Player extends ControllableEntity {
 
     public Player(GamePad gamePad) {
         super(gamePad);
-        Animator animator = new Animator();
+        FrameFactory frameFactory = new FrameFactory();
         setSpeed(4);
         setOffset(32, 32);
         setDimension(32, 32);
         teleport(675, 500);
-        LINK_FRAMES = animator.loadLinkFrames(width, height);
+        LINK_FRAMES = frameFactory.loadLinkFrames(width, height);
     }
 
     @Override

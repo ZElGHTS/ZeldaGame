@@ -1,6 +1,7 @@
 package cegepst;
 
 import cegepst.engine.*;
+import cegepst.engine.entity.StaticEntity;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -14,6 +15,7 @@ public class ZeldaGame extends Game {
     private final Map MAP;
     private final GamePad GAME_PAD;
     private ArrayList<Arrow> arrows;
+    private ArrayList<StaticEntity> killedEntities;
     private int soundCoolDown;
 
     public ZeldaGame() {
@@ -36,14 +38,12 @@ public class ZeldaGame extends Game {
         for (Arrow arrow : arrows) {
             arrow.update();
         }
-
         PLAYER.update();
 /*
         if (GAME_PAD.isFirePressed() && soundCoolDown == 0) {
             soundCoolDown = 40;
             Sound.play("sounds/best1.wav");
         }
-
  */
     }
 
