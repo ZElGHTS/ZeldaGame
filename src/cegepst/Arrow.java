@@ -15,7 +15,8 @@ public class Arrow extends MovableEntity {
 
     public Arrow(Player player) {
         loadSpriteSheet();
-        super.setSpeed(8);
+        setDamage(10);
+        setSpeed(8);
         PLAYER_DIRECTION = player.getDirection();
         if (PLAYER_DIRECTION == Direction.RIGHT) {
             super.teleport(player.getX() + player.getWidth() + 1, player.getY() + 15 - 2);

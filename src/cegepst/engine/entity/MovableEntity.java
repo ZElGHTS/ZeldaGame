@@ -13,6 +13,7 @@ public abstract class MovableEntity extends UpdatableEntity {
     private boolean moved;
     private int lastX;
     private int lastY;
+    private int damage;
 
     @Override
     public void update() {
@@ -75,6 +76,14 @@ public abstract class MovableEntity extends UpdatableEntity {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 
     public int getSpeed() {

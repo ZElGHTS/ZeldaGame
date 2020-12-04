@@ -19,11 +19,8 @@ public class Player extends ControllableEntity {
 
     public Player(GamePad gamePad) {
         super(gamePad);
+        initialize();
         FrameFactory frameFactory = new FrameFactory();
-        setSpeed(4);
-        setOffset(32, 32);
-        setDimension(32, 32);
-        teleport(675, 500);
         LINK_FRAMES = frameFactory.loadLinkFrames(width, height);
     }
 
@@ -48,6 +45,14 @@ public class Player extends ControllableEntity {
         } else {
             buffer.drawImage(LINK_FRAMES.get("rightFrames")[currentAnimationFrame], x, y);
         }
+    }
+
+    public void initialize() {
+        setHp(100);
+        setSpeed(4);
+        setOffset(32, 32);
+        setDimension(32, 32);
+        teleport(675, 500);
     }
 
     public Arrow fire() {

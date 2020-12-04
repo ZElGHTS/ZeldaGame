@@ -35,6 +35,10 @@ public class Map extends StaticEntity {
         }
     }
 
+    public ArrayList<MapBorders> getMapBorders() {
+        return borders;
+    }
+
     private void loadMap() {
         try {
             map = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream(MAP_PATH));

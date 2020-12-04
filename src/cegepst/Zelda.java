@@ -1,25 +1,28 @@
 package cegepst;
 
 import cegepst.engine.Buffer;
+import cegepst.engine.Camera;
+import cegepst.engine.CollidableRepository;
 import cegepst.engine.controls.Direction;
+import cegepst.engine.entity.LivingEntity;
 import cegepst.engine.entity.MovableEntity;
 
 import java.awt.*;
 import java.util.HashMap;
 
-public class Zelda extends MovableEntity {
+public class Zelda extends LivingEntity {
 
     private final HashMap<String, Image[]> ZELDA_FRAMES;
     private final int ANIMATION_SPEED = 8;
     private final int NUMBER_OF_SPRITE = 2;
+    private final Player link;
     private int currentAnimationFrame = 1;
     private int nextFrame = ANIMATION_SPEED;
-    private Player link;
+    private int cooldown;
 
     public Zelda(Player player) {
         FrameFactory frameFactory = new FrameFactory();
-        setSpeed(7);
-        setDimension(24, 32);
+        initialize();
         link = player;
         ZELDA_FRAMES = frameFactory.loadZeldaFrames(width, height);
     }
@@ -27,8 +30,6 @@ public class Zelda extends MovableEntity {
     @Override
     public void update() {
         super.update();
-        moveToLink();
-        attackLink();
         cycleFrames();
     }
 
@@ -45,12 +46,21 @@ public class Zelda extends MovableEntity {
         }
     }
 
-    private void moveToLink() {
-        //TODO : intelligence pour se diriger vers Link
+    public void initialize() {
+        setHp(10);
+        setDamage(10);
+        setSpeed(7);
+        setDimension(24, 32);
+        teleport(675, 800);
+        cooldown = 20;
     }
 
-    private void attackLink() {
-        //TODO : système de détection de position pour attaquer
+    public boolean canAttack() {
+        return cooldown == 0;
+    }
+
+    protected int attack() {
+        return getDamage();
     }
 
     private void cycleFrames() {

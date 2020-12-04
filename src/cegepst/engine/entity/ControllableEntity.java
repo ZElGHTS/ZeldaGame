@@ -2,7 +2,7 @@ package cegepst.engine.entity;
 
 import cegepst.engine.controls.MovementController;
 
-public abstract class ControllableEntity extends MovableEntity {
+public abstract class ControllableEntity extends LivingEntity {
 
     private MovementController controller;
 
