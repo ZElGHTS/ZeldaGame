@@ -1,4 +1,4 @@
-package cegepst;
+package cegepst.game;
 
 import cegepst.engine.Buffer;
 import cegepst.engine.controls.Direction;

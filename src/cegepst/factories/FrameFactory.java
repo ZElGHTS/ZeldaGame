@@ -1,4 +1,4 @@
-package cegepst;
+package cegepst.factories;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

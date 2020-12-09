@@ -1,8 +1,10 @@
-package cegepst;
+package cegepst.game;
 
+import cegepst.factories.FrameFactory;
 import cegepst.engine.Buffer;
 import cegepst.engine.Camera;
 import cegepst.engine.controls.Direction;
+import cegepst.engine.controls.GamePad;
 import cegepst.engine.entity.ControllableEntity;
 
 import java.awt.*;

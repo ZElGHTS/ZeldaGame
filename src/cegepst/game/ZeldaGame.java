@@ -1,7 +1,13 @@
-package cegepst;
+package cegepst.game;
 
+import cegepst.factories.WaveFactory;
+import cegepst.ennemies.Zelda;
 import cegepst.engine.*;
+import cegepst.engine.controls.GamePad;
 import cegepst.engine.entity.StaticEntity;
+import cegepst.world.Map;
+import cegepst.world.MapBorders;
+
 import java.awt.*;
 import java.util.ArrayList;
 

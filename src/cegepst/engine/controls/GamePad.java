@@ -1,7 +1,6 @@
-package cegepst;
+package cegepst.engine.controls;
 
 import cegepst.engine.RenderingEngine;
-import cegepst.engine.controls.MovementController;
 
 import java.awt.event.KeyEvent;
 

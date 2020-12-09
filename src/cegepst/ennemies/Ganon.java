@@ -1,4 +1,4 @@
-package cegepst;
+package cegepst.ennemies;
 
 import cegepst.engine.Buffer;
 import cegepst.engine.entity.LivingEntity;

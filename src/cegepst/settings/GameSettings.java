@@ -1,4 +1,4 @@
-package cegepst;
+package cegepst.settings;
 
 public class GameSettings {
 

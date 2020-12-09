@@ -1,9 +1,8 @@
-package cegepst;
+package cegepst.world;
 
 import cegepst.engine.Buffer;
 import cegepst.engine.entity.StaticEntity;
-
-import java.awt.*;
+import cegepst.world.Blockade;
 
 public class Tombstone extends StaticEntity {
 

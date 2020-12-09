@@ -1,9 +1,11 @@
-package cegepst;
+package cegepst.ennemies;
 
+import cegepst.factories.FrameFactory;
 import cegepst.engine.Buffer;
 import cegepst.engine.CollidableRepository;
 import cegepst.engine.controls.Direction;
 import cegepst.engine.entity.LivingEntity;
+import cegepst.game.Player;
 
 import java.awt.*;
 import java.util.HashMap;

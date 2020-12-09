@@ -1,4 +1,7 @@
-package cegepst;
+package cegepst.factories;
+
+import cegepst.ennemies.Zelda;
+import cegepst.game.Player;
 
 import java.util.Random;
 

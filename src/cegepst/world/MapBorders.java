@@ -1,7 +1,8 @@
-package cegepst;
+package cegepst.world;
 
 import cegepst.engine.Buffer;
 import cegepst.engine.entity.StaticEntity;
+import cegepst.world.Blockade;
 
 public class MapBorders extends StaticEntity {
 
