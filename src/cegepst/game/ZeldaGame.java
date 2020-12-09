@@ -1,5 +1,7 @@
 package cegepst.game;
 
+import cegepst.ennemies.Ganon;
+import cegepst.ennemies.Wizard;
 import cegepst.factories.WaveFactory;
 import cegepst.ennemies.Zelda;
 import cegepst.engine.*;
@@ -21,11 +23,15 @@ public class ZeldaGame extends Game {
     private final WaveFactory FACTORY;
     private final Sound SOUND = new Sound();
     private final int INITIAL_COOLDOWN_WAVE = 500;
-    private final int BOSS_WAVE = 6;
+    private final int GANON_WAVE = 1;
+
     private int cooldownWave = INITIAL_COOLDOWN_WAVE;
     private int numberOfZelda = 50;
     private int currentWave = 1;
-    private boolean bossExist;
+    private boolean winner = false;
+    private boolean ganonExist = false;
+    private Ganon ganon;
+    private Wizard wizard;
 
     public ZeldaGame() {
         ARROWS = new ArrayList<>();
@@ -53,15 +59,15 @@ public class ZeldaGame extends Game {
         updateZeldas();
         updateKilledElements(killedElements);
 
-        if (currentWave != BOSS_WAVE) {
+        if (currentWave != GANON_WAVE) {
             updateWave();
-        } else if (!bossExist) {
-            bossExist = true;
-            bossWave();
+        } else if (!ganonExist) {
+            ganonExist = true;
+            ganonWave();
         }
 
-        if (bossExist) {
-            bossUpdate();
+        if (ganonExist && !winner) {
+            updateGanonWave();
         }
 
         if (PLAYER.isDead()) {
@@ -83,8 +89,17 @@ public class ZeldaGame extends Game {
             arrow.draw(buffer);
         }
 
+        if (ganonExist) {
+            ganon.draw(buffer);
+            wizard.draw(buffer);
+        }
+
         buffer.drawText("FPS: " + GameTime.getCurrentFps(), 740, 20, Color.WHITE);
         buffer.drawText(GameTime.getElapsedFormattedTime(), 740, 40, Color.WHITE);
+
+        if (winner) {
+
+        }
     }
 
     @Override
@@ -114,6 +129,20 @@ public class ZeldaGame extends Game {
                     }
                     killedElements.add(arrow);
                 }
+            }
+            if(arrow.hitBoxIntersectWith(wizard)) {
+                wizard.receiveDamage(arrow.getDamage());
+                if(wizard.isDead()) {
+                    killedElements.add(wizard);
+                }
+                killedElements.add(arrow);
+            }
+            if(arrow.hitBoxIntersectWith(ganon)) {
+                ganon.receiveDamage(arrow.getDamage());
+                if(ganon.isDead()) {
+                    killedElements.add(ganon);
+                }
+                killedElements.add(arrow);
             }
         }
     }
@@ -160,11 +189,25 @@ public class ZeldaGame extends Game {
         }
     }
 
-    private void bossWave() {
-
+    private void ganonWave() {
+        SOUND.playSoundEffect("sounds/ganonEntrance.wav");
+        ganon = FACTORY.createGanon();
+        wizard = FACTORY.createWizard(ganon);
     }
 
-    private void bossUpdate() {
-
+    private void updateGanonWave() {
+        cooldownWave--;
+        if (!ganon.isDead()) {
+            if(ganon.intersectWith(PLAYER)) {
+                PLAYER.receiveDamage(ganon.attack());
+            }
+            wizard.update();
+            if (cooldownWave <= 0) {
+                FACTORY.ganonSpawn(ganon);
+            }
+        } else {
+            winner = true;
+            SOUND.playMusic("musics/victory.wav");
+        }
     }
 }
