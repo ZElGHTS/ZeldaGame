@@ -30,6 +30,7 @@ public class Player extends ControllableEntity {
         moveAccordingToHandler();
         cycleFrames();
         updateCooldown();
+        clipped();
     }
 
     @Override
@@ -100,6 +101,13 @@ public class Player extends ControllableEntity {
         cooldown--;
         if (cooldown <= 0) {
             cooldown = 0;
+        }
+    }
+
+    private void clipped() {
+        if ((x <= 390 && y <= 385) || (x >= 1740 && y <= 385)
+                || (x <= 390 && y >= 2772) || (x >= 1740 && y >= 2772)) {
+            teleport(1055, 1085);
         }
     }
 }

@@ -13,7 +13,7 @@ public class Zelda extends LivingEntity {
     private final HashMap<String, Image[]> ZELDA_FRAMES;
     private final int ANIMATION_SPEED = 8;
     private final int NUMBER_OF_SPRITE = 2;
-    private final Player LINK;
+    private final Player PLAYER;
     private int currentAnimationFrame = 1;
     private int nextFrame = ANIMATION_SPEED;
     private int cooldown;
@@ -21,7 +21,7 @@ public class Zelda extends LivingEntity {
     public Zelda(Player player) {
         FrameFactory frameFactory = new FrameFactory();
         initialize();
-        LINK = player;
+        PLAYER = player;
         ZELDA_FRAMES = frameFactory.loadZeldaFrames(width, height);
         CollidableRepository.getInstance().registerEntity(this);
     }
@@ -29,7 +29,7 @@ public class Zelda extends LivingEntity {
     @Override
     public void update() {
         super.update();
-        moveToLink();
+        moveToPlayer();
         cycleFrames();
         updateCooldown();
     }
@@ -47,17 +47,17 @@ public class Zelda extends LivingEntity {
         }
     }
 
-    public void moveToLink() {
-        if(x < LINK.getX() || hitBoxIntersectWith(LINK)) {
+    public void moveToPlayer() {
+        if(x < PLAYER.getX() || hitBoxIntersectWith(PLAYER)) {
             moveRight();
         }
-        if(x > LINK.getX() || hitBoxIntersectWith(LINK)) {
+        if(x > PLAYER.getX() || hitBoxIntersectWith(PLAYER)) {
             moveLeft();
         }
-        if(y < LINK.getY() || hitBoxIntersectWith(LINK)) {
+        if(y < PLAYER.getY() || hitBoxIntersectWith(PLAYER)) {
             moveDown();
         }
-        if(y > LINK.getY() || hitBoxIntersectWith(LINK)) {
+        if(y > PLAYER.getY() || hitBoxIntersectWith(PLAYER)) {
             moveUp();
         }
     }

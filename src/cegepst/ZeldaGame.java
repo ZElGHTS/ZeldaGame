@@ -19,6 +19,7 @@ public class ZeldaGame extends Game {
     private int cooldownWave = INITIAL_COOLDOWN_WAVE;
     private int numberOfZelda = 50;
     private int currentWave = 1;
+    private boolean bossExist;
 
     public ZeldaGame() {
         ARROWS = new ArrayList<>();
@@ -46,7 +47,16 @@ public class ZeldaGame extends Game {
         updateZeldas();
         updateKilledElements(killedElements);
 
-        updateWave();
+        if (currentWave != BOSS_WAVE) {
+            updateWave();
+        } else if (!bossExist) {
+            bossExist = true;
+            bossWave();
+        }
+
+        if (bossExist) {
+            bossUpdate();
+        }
 
         if (PLAYER.isDead()) {
             SOUND.playSoundEffect("sounds/best1.wav");
@@ -108,6 +118,10 @@ public class ZeldaGame extends Game {
             if(zelda.hitBoxIntersectWith(PLAYER) && zelda.canAttack()) {
                 PLAYER.receiveDamage(zelda.attack());
             }
+            if ((zelda.getX() <= 390 && zelda.getY() <= 385) || (zelda.getX() >= 1740 && zelda.getY() <= 385)
+                    || (zelda.getX() <= 390 && zelda.getY() >= 2772) || (zelda.getX() >= 1740 && zelda.getY() >= 2772)) {
+                FACTORY.randomSpawn(zelda);
+            }
         }
     }
 
@@ -115,6 +129,9 @@ public class ZeldaGame extends Game {
         for(StaticEntity killedElement : killedElements) {
             if(killedElement instanceof Zelda) {
                 ZELDAS.remove(killedElement);
+                if(ZELDAS.isEmpty()) {
+                    SOUND.playSoundEffect("sounds/waveFinished.wav");
+                }
             } else if(killedElement instanceof Arrow) {
                 ARROWS.remove(killedElement);
             }
@@ -125,17 +142,23 @@ public class ZeldaGame extends Game {
     private void updateWave() {
         cooldownWave--;
         if(cooldownWave <= 0 && ZELDAS.isEmpty()) {
-            if (currentWave != BOSS_WAVE) {
-                for (int i = 0; i < numberOfZelda; ++i) {
-                    ZELDAS.add(FACTORY.createZelda(PLAYER));
-                }
-
-                numberOfZelda += 35;
-                currentWave++;
+            for (int i = 0; i < numberOfZelda; ++i) {
+                ZELDAS.add(FACTORY.createZelda(PLAYER));
             }
+
+            numberOfZelda += 35;
+            currentWave++;
         }
         if (ZELDAS.size() == 1) {
             cooldownWave = INITIAL_COOLDOWN_WAVE;
         }
+    }
+
+    private void bossWave() {
+
+    }
+
+    private void bossUpdate() {
+
     }
 }
