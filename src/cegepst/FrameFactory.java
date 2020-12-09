@@ -13,6 +13,7 @@ public class FrameFactory {
     private Image[] downFrames;
     private Image[] rightFrames;
     private Image[] leftFrames;
+    private Image[] heartsFrames;
 
     public HashMap<String, Image[]> loadLinkFrames(int width, int height) {
         final String SPRITE_PATH_LINK = "images/Link.png";
@@ -38,6 +39,11 @@ public class FrameFactory {
         upFrames[0] = spriteSheet.getSubimage(138, 22, width, height);
         upFrames[1] = spriteSheet.getSubimage(172, 22, width, height);
         linkFrames.put("upFrames", upFrames);
+
+        heartsFrames = new Image[2];
+        heartsFrames[0] = spriteSheet.getSubimage(4, 110, 14, 16);
+        heartsFrames[1] = spriteSheet.getSubimage(22, 110, 14, 16);
+        linkFrames.put("heartsFrames", heartsFrames);
 
         return linkFrames;
     }

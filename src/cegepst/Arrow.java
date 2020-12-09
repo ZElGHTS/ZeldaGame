@@ -42,13 +42,10 @@ public class Arrow extends MovableEntity {
     @Override
     public void draw(Buffer buffer) {
         switch (PLAYER_DIRECTION) {
-            case UP: buffer.drawImage(spriteSheet.getSubimage(2, 58, width, height), x, y);
-            break;
-            case DOWN: buffer.drawImage(spriteSheet.getSubimage(14, 58, width, height), x, y);
-            break;
-            case LEFT: buffer.drawImage(spriteSheet.getSubimage(30, 77, width, height), x, y);
-            break;
-            case RIGHT: buffer.drawImage(spriteSheet.getSubimage(30, 58, width, height), x, y);
+            case UP: buffer.drawImage(spriteSheet.getSubimage(2, 58, width, height), x, y); break;
+            case DOWN: buffer.drawImage(spriteSheet.getSubimage(14, 58, width, height), x, y); break;
+            case LEFT: buffer.drawImage(spriteSheet.getSubimage(30, 77, width, height), x, y); break;
+            case RIGHT: buffer.drawImage(spriteSheet.getSubimage(30, 58, width, height), x, y); break;
         }
     }
 

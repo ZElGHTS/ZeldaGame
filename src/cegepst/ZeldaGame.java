@@ -2,10 +2,6 @@ package cegepst;
 
 import cegepst.engine.*;
 import cegepst.engine.entity.StaticEntity;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -14,20 +10,23 @@ public class ZeldaGame extends Game {
     private final Player PLAYER;
     private final Map MAP;
     private final GamePad GAME_PAD;
-    private final int initialCoolDownWave = 500;
-    private int cooldownWave = initialCoolDownWave;
-    private ArrayList<Arrow> arrows;
-    private ArrayList<Zelda> zeldas;
-    private int soundCoolDown;
+    private final ArrayList<Arrow> ARROWS;
+    private final ArrayList<Zelda> ZELDAS;
+    private final WaveFactory FACTORY;
+    private final Sound SOUND = new Sound();
+    private final int INITIAL_COOLDOWN_WAVE = 500;
+    private final int BOSS_WAVE = 6;
+    private int cooldownWave = INITIAL_COOLDOWN_WAVE;
+    private int numberOfZelda = 50;
+    private int currentWave = 1;
 
     public ZeldaGame() {
-        arrows = new ArrayList<>();
-        zeldas = new ArrayList<>();
+        ARROWS = new ArrayList<>();
+        ZELDAS = new ArrayList<>();
         GAME_PAD = new GamePad();
         PLAYER = new Player(GAME_PAD);
         MAP = new Map();
-        Zelda test = new Zelda(PLAYER);
-        zeldas.add(test);
+        FACTORY = new WaveFactory();
     }
 
     @Override
@@ -37,7 +36,7 @@ public class ZeldaGame extends Game {
         }
 
         if (GAME_PAD.isFirePressed() && PLAYER.canFire()) {
-            arrows.add(PLAYER.fire());
+            ARROWS.add(PLAYER.fire());
         }
 
         PLAYER.update();
@@ -46,13 +45,11 @@ public class ZeldaGame extends Game {
         updateArrows(killedElements);
         updateZeldas();
         updateKilledElements(killedElements);
-/*
-        if (GAME_PAD.isFirePressed() && soundCoolDown == 0) {
-            soundCoolDown = 40;
-            Sound.play("sounds/best1.wav");
-        }
- */
+
+        updateWave();
+
         if (PLAYER.isDead()) {
+            SOUND.playSoundEffect("sounds/best1.wav");
             super.stop();
         }
     }
@@ -62,22 +59,22 @@ public class ZeldaGame extends Game {
         MAP.draw(buffer);
         PLAYER.draw(buffer);
 
-        for (Zelda zelda : zeldas) {
+        for (Zelda zelda : ZELDAS) {
             zelda.draw(buffer);
         }
 
-        for (Arrow arrow : arrows) {
+        for (Arrow arrow : ARROWS) {
             arrow.draw(buffer);
         }
 
-        buffer.drawText("FPS: " + GameTime.getCurrentFps(), 10, 20, Color.WHITE);
-        buffer.drawText(GameTime.getElapsedFormattedTime(), 10, 40, Color.WHITE);
+        buffer.drawText("FPS: " + GameTime.getCurrentFps(), 740, 20, Color.WHITE);
+        buffer.drawText(GameTime.getElapsedFormattedTime(), 740, 40, Color.WHITE);
     }
 
     @Override
     public void initialize() {
         RenderingEngine.getInstance().getScreen().hideCursor();
-        startMusic();
+        SOUND.playMusic("musics/letTheBattleBegin.wav");
     }
 
     @Override
@@ -85,27 +82,15 @@ public class ZeldaGame extends Game {
 
     }
 
-    private void startMusic() {
-        try {
-            Clip clip = AudioSystem.getClip();
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(this.getClass().getClassLoader().getResourceAsStream("musics/map1.wav"));
-            clip.open(inputStream);
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-            clip.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void updateArrows(ArrayList<StaticEntity> killedElements) {
-        for (Arrow arrow : arrows) {
+        for (Arrow arrow : ARROWS) {
             arrow.update();
             for(MapBorders border : MAP.getMapBorders()) {
                 if(arrow.hitBoxIntersectWith(border)) {
                     killedElements.add(arrow);
                 }
             }
-            for(Zelda zelda : zeldas) {
+            for(Zelda zelda : ZELDAS) {
                 if(arrow.hitBoxIntersectWith(zelda)) {
                     zelda.receiveDamage(arrow.getDamage());
                     if(zelda.isDead()) {
@@ -118,7 +103,7 @@ public class ZeldaGame extends Game {
     }
 
     private void updateZeldas() {
-        for(Zelda zelda : zeldas) {
+        for(Zelda zelda : ZELDAS) {
             zelda.update();
             if(zelda.hitBoxIntersectWith(PLAYER) && zelda.canAttack()) {
                 PLAYER.receiveDamage(zelda.attack());
@@ -129,13 +114,28 @@ public class ZeldaGame extends Game {
     private void updateKilledElements(ArrayList<StaticEntity> killedElements) {
         for(StaticEntity killedElement : killedElements) {
             if(killedElement instanceof Zelda) {
-                zeldas.remove(killedElement);
+                ZELDAS.remove(killedElement);
             } else if(killedElement instanceof Arrow) {
-                arrows.remove(killedElement);
+                ARROWS.remove(killedElement);
             }
             CollidableRepository.getInstance().unregisterEntity(killedElement);
         }
     }
 
+    private void updateWave() {
+        cooldownWave--;
+        if(cooldownWave <= 0 && ZELDAS.isEmpty()) {
+            if (currentWave != BOSS_WAVE) {
+                for (int i = 0; i < numberOfZelda; ++i) {
+                    ZELDAS.add(FACTORY.createZelda(PLAYER));
+                }
 
+                numberOfZelda += 35;
+                currentWave++;
+            }
+        }
+        if (ZELDAS.size() == 1) {
+            cooldownWave = INITIAL_COOLDOWN_WAVE;
+        }
+    }
 }

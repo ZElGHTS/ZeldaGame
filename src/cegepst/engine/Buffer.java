@@ -40,4 +40,8 @@ public class Buffer {
 
         graphics.drawImage(image, x, y, null);
     }
+
+    public void drawHearts(Image image, int x, int y) {
+        graphics.drawImage(image, x, y, null);
+    }
 }

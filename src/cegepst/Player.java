@@ -34,6 +34,7 @@ public class Player extends ControllableEntity {
 
     @Override
     public void draw(Buffer buffer) {
+        hearts(buffer);
         final Camera camera = Camera.getInstance();
         camera.move(x - camera.getHalfScreenX() + offsetX, y - camera.getHalfScreenY() + offsetY);
         if (getDirection() == Direction.UP) {
@@ -56,12 +57,28 @@ public class Player extends ControllableEntity {
     }
 
     public Arrow fire() {
-        cooldown = 35;
+        cooldown = 20;
         return new Arrow(this);
     }
 
     public boolean canFire() {
         return cooldown == 0;
+    }
+
+    private void hearts(Buffer buffer) {
+        final int FULL = 0;
+        final int EMPTY = 1;
+        final int numberOfHearts = 10;
+        int x = numberOfHearts;
+        for (int i = 1; i <= numberOfHearts; ++i) {
+            buffer.drawHearts(LINK_FRAMES.get("heartsFrames")[EMPTY], x, 10);
+            x += 20;
+        }
+        x = numberOfHearts;
+        for (int i = 1; i <= (getHp() /numberOfHearts); ++i) {
+            buffer.drawHearts(LINK_FRAMES.get("heartsFrames")[FULL], x, 10);
+            x += 20;
+        }
     }
 
     private void cycleFrames() {

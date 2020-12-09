@@ -6,7 +6,7 @@ import javax.sound.sampled.Clip;
 
 public class Sound {
 
-    public static synchronized void play(final String fileName) {
+    public void playMusic(final String fileName) {
         new Thread(new Runnable() {
 
             @Override
@@ -15,11 +15,23 @@ public class Sound {
                     Clip clip = AudioSystem.getClip();
                     AudioInputStream inputStream = AudioSystem.getAudioInputStream(this.getClass().getClassLoader().getResourceAsStream(fileName));
                     clip.open(inputStream);
+                    clip.loop(Clip.LOOP_CONTINUOUSLY);
                     clip.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }).start();
+    }
+
+    public void playSoundEffect(String fileName) {
+        try {
+            Clip clip = AudioSystem.getClip();
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(this.getClass().getClassLoader().getResourceAsStream(fileName));
+            clip.open(inputStream);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
