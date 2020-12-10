@@ -45,7 +45,7 @@ public class WaveFactory {
 
     public void ganonSpawn(Ganon ganon) {
         Random random = new Random();
-        int spawn = random.nextInt(7);
+        int spawn = random.nextInt(9);
         switch(spawn) {
             case 0: ganon.teleport(975, 450); break;
             case 1: ganon.teleport(585, 720); break;
@@ -53,7 +53,9 @@ public class WaveFactory {
             case 3: ganon.teleport(971, 986); break;
             case 4: ganon.teleport(588, 1253); break;
             case 5: ganon.teleport(1356, 1253); break;
-            case 6: ganon.teleport(968, 1513); break;
+            case 6: ganon.teleport(783, 1513); break;
+            case 7: ganon.teleport(968, 1513); break;
+            case 8: ganon.teleport(1160, 1513); break;
         }
     }
 }

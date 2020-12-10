@@ -1,5 +1,6 @@
 package cegepst.game;
 
+import cegepst.engine.entity.LivingEntity;
 import cegepst.ennemies.Ganon;
 import cegepst.ennemies.Wizard;
 import cegepst.factories.WaveFactory;
@@ -23,6 +24,7 @@ public class ZeldaGame extends Game {
     private final WaveFactory FACTORY;
     private final Sound SOUND = new Sound();
     private final int INITIAL_COOLDOWN_WAVE = 500;
+    private final int GANON_COOLDOWN = 80;
     private final int GANON_WAVE = 1;
 
     private int cooldownWave = INITIAL_COOLDOWN_WAVE;
@@ -79,7 +81,6 @@ public class ZeldaGame extends Game {
     @Override
     public void draw(Buffer buffer) {
         MAP.draw(buffer);
-        PLAYER.draw(buffer);
 
         for (Zelda zelda : ZELDAS) {
             zelda.draw(buffer);
@@ -94,12 +95,10 @@ public class ZeldaGame extends Game {
             wizard.draw(buffer);
         }
 
+        PLAYER.draw(buffer);
+
         buffer.drawText("FPS: " + GameTime.getCurrentFps(), 740, 20, Color.WHITE);
         buffer.drawText(GameTime.getElapsedFormattedTime(), 740, 40, Color.WHITE);
-
-        if (winner) {
-
-        }
     }
 
     @Override
@@ -122,28 +121,20 @@ public class ZeldaGame extends Game {
                 }
             }
             for(Zelda zelda : ZELDAS) {
-                if(arrow.hitBoxIntersectWith(zelda)) {
-                    zelda.receiveDamage(arrow.getDamage());
-                    if(zelda.isDead()) {
-                        killedElements.add(zelda);
-                    }
-                    killedElements.add(arrow);
-                }
+                arrowIntersect(arrow, zelda, killedElements);
             }
-            if(arrow.hitBoxIntersectWith(wizard)) {
-                wizard.receiveDamage(arrow.getDamage());
-                if(wizard.isDead()) {
-                    killedElements.add(wizard);
-                }
-                killedElements.add(arrow);
+            arrowIntersect(arrow, wizard, killedElements);
+            arrowIntersect(arrow, ganon, killedElements);
+        }
+    }
+
+    private void arrowIntersect(Arrow arrow, LivingEntity entity, ArrayList<StaticEntity> killedElements) {
+        if(arrow.hitBoxIntersectWith(entity)) {
+            entity.receiveDamage(arrow.getDamage());
+            if(entity.isDead()) {
+                killedElements.add(entity);
             }
-            if(arrow.hitBoxIntersectWith(ganon)) {
-                ganon.receiveDamage(arrow.getDamage());
-                if(ganon.isDead()) {
-                    killedElements.add(ganon);
-                }
-                killedElements.add(arrow);
-            }
+            killedElements.add(arrow);
         }
     }
 
@@ -180,12 +171,11 @@ public class ZeldaGame extends Game {
             for (int i = 0; i < numberOfZelda; ++i) {
                 ZELDAS.add(FACTORY.createZelda(PLAYER));
             }
-
             numberOfZelda += 35;
-            currentWave++;
         }
         if (ZELDAS.size() == 1) {
             cooldownWave = INITIAL_COOLDOWN_WAVE;
+            currentWave++;
         }
     }
 
@@ -202,8 +192,9 @@ public class ZeldaGame extends Game {
                 PLAYER.receiveDamage(ganon.attack());
             }
             wizard.update();
-            if (cooldownWave <= 0) {
+            if (cooldownWave <= 0 && !wizard.isDead()) {
                 FACTORY.ganonSpawn(ganon);
+                cooldownWave = GANON_COOLDOWN;
             }
         } else {
             winner = true;
