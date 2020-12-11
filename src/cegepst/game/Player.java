@@ -1,5 +1,6 @@
 package cegepst.game;
 
+import cegepst.engine.GameTime;
 import cegepst.factories.FrameFactory;
 import cegepst.engine.Buffer;
 import cegepst.engine.Camera;
@@ -37,7 +38,7 @@ public class Player extends ControllableEntity {
 
     @Override
     public void draw(Buffer buffer) {
-        hearts(buffer);
+        hud(buffer);
         final Camera camera = Camera.getInstance();
         camera.move(x - camera.getHalfScreenX() + offsetX, y - camera.getHalfScreenY() + offsetY);
         if (getDirection() == Direction.UP) {
@@ -48,6 +49,9 @@ public class Player extends ControllableEntity {
             buffer.drawImage(LINK_FRAMES.get("leftFrames")[currentAnimationFrame], x, y);
         } else {
             buffer.drawImage(LINK_FRAMES.get("rightFrames")[currentAnimationFrame], x, y);
+        }
+        if (isDead()) {
+            looser(buffer);
         }
     }
 
@@ -68,7 +72,7 @@ public class Player extends ControllableEntity {
         return cooldown == 0;
     }
 
-    private void hearts(Buffer buffer) {
+    private void hud(Buffer buffer) {
         final int FULL = 0;
         final int EMPTY = 1;
         final int numberOfHearts = 10;
@@ -82,6 +86,14 @@ public class Player extends ControllableEntity {
             buffer.drawHearts(LINK_FRAMES.get("heartsFrames")[FULL], x, 10);
             x += 20;
         }
+        buffer.drawText("FPS: " + GameTime.getCurrentFps(), 740, 20, Color.WHITE);
+        buffer.drawText(GameTime.getElapsedFormattedTime(), 740, 40, Color.WHITE);
+    }
+
+    private void looser(Buffer buffer) {
+        final String DEAD_MESSAGE = "Well shit.";
+        buffer.drawRectangle(x - 400, y - 300, 1200, 1000, Color.BLACK);
+        buffer.drawEndText(DEAD_MESSAGE, x, y, Color.WHITE);
     }
 
     private void cycleFrames() {

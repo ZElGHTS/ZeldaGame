@@ -46,6 +46,7 @@ public class ZeldaGame extends Game {
     @Override
     public void update() {
         if (GAME_PAD.isQuitPressed()) {
+            SOUND.playSoundEffect("sounds/best1.wav");
             super.stop();
         }
 
@@ -70,11 +71,6 @@ public class ZeldaGame extends Game {
         if (ganonExist && !winner) {
             updateGanonWave();
         }
-
-        if (PLAYER.isDead()) {
-            SOUND.playSoundEffect("sounds/best1.wav");
-            super.stop();
-        }
     }
 
     @Override
@@ -95,9 +91,6 @@ public class ZeldaGame extends Game {
         }
 
         PLAYER.draw(buffer);
-
-        buffer.drawText("FPS: " + GameTime.getCurrentFps(), 740, 20, Color.WHITE);
-        buffer.drawText(GameTime.getElapsedFormattedTime(), 740, 40, Color.WHITE);
     }
 
     @Override

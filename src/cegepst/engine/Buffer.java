@@ -27,8 +27,13 @@ public class Buffer {
     }
 
     public void drawText(String text, int x, int y, Paint paint) {
-        //x -= Camera.getInstance().getX();
-        //y -= Camera.getInstance().getY();
+        graphics.setPaint(paint);
+        graphics.drawString(text, x, y);
+    }
+
+    public void drawEndText(String text, int x, int y, Paint paint) {
+        x -= Camera.getInstance().getX();
+        y -= Camera.getInstance().getY();
 
         graphics.setPaint(paint);
         graphics.drawString(text, x, y);
