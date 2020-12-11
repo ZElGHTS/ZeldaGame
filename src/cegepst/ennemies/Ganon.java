@@ -10,6 +10,7 @@ import java.io.IOException;
 public class Ganon extends LivingEntity {
 
     private BufferedImage spriteSheet;
+    private int cooldown;
 
     public Ganon() {
         initialize();
@@ -28,14 +29,23 @@ public class Ganon extends LivingEntity {
         setHp(999999999);
         setDamage(100);
         setDimension(192, 192);
+        cooldown = 30;
     }
 
     public int attack() {
         return getDamage();
     }
 
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
+    }
+
     private void loadSpriteSheet() {
-        String spritePath = "images/Ganon.png";
+        final String spritePath = "images/Ganon.png";
         try {
             spriteSheet = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream(spritePath));
         } catch (IOException e) {

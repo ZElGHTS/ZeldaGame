@@ -22,8 +22,7 @@ public class WaveFactory {
     }
 
     public Wizard createWizard(Ganon ganon) {
-        Wizard wizard = new Wizard(ganon);
-        return wizard;
+        return new Wizard(ganon);
     }
 
     public void randomSpawn(Zelda zelda) {
@@ -45,17 +44,29 @@ public class WaveFactory {
 
     public void ganonSpawn(Ganon ganon) {
         Random random = new Random();
-        int spawn = random.nextInt(9);
+        int spawn = random.nextInt(21);
         switch(spawn) {
-            case 0: ganon.teleport(975, 450); break;
-            case 1: ganon.teleport(585, 720); break;
-            case 2: ganon.teleport(1356, 720); break;
-            case 3: ganon.teleport(971, 986); break;
-            case 4: ganon.teleport(588, 1253); break;
-            case 5: ganon.teleport(1356, 1253); break;
-            case 6: ganon.teleport(783, 1513); break;
-            case 7: ganon.teleport(968, 1513); break;
-            case 8: ganon.teleport(1160, 1513); break;
+            case 0: ganon.teleport(783, 720); break;
+            case 1: ganon.teleport(975, 450); break;
+            case 2: ganon.teleport(1167, 720); break;
+            case 3: ganon.teleport(396, 720); break;
+            case 4: ganon.teleport(588, 720); break;
+            case 5: ganon.teleport(780, 720); break;
+            case 6: ganon.teleport(1164, 720); break;
+            case 7: ganon.teleport(1356, 720); break;
+            case 8: ganon.teleport(1548, 720); break;
+            case 9: ganon.teleport(779, 986); break;
+            case 10: ganon.teleport(971, 986); break;
+            case 11: ganon.teleport(1163, 986); break;
+            case 12: ganon.teleport(396, 1253); break;
+            case 13: ganon.teleport(588, 1253); break;
+            case 14: ganon.teleport(780, 1253); break;
+            case 15: ganon.teleport(1164, 1253); break;
+            case 16: ganon.teleport(1356, 1253); break;
+            case 17: ganon.teleport(1548, 1253); break;
+            case 18: ganon.teleport(783, 1513); break;
+            case 19: ganon.teleport(968, 1513); break;
+            case 20: ganon.teleport(1160, 1513); break;
         }
     }
 }

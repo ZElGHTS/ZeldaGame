@@ -24,12 +24,11 @@ public class ZeldaGame extends Game {
     private final WaveFactory FACTORY;
     private final Sound SOUND = new Sound();
     private final int INITIAL_COOLDOWN_WAVE = 500;
-    private final int GANON_COOLDOWN = 80;
-    private final int GANON_WAVE = 1;
+    private final int FINAL_WAVE = 3;
 
     private int cooldownWave = INITIAL_COOLDOWN_WAVE;
     private int numberOfZelda = 50;
-    private int currentWave = 1;
+    private int currentWave = 0;
     private boolean winner = false;
     private boolean ganonExist = false;
     private Ganon ganon;
@@ -61,9 +60,9 @@ public class ZeldaGame extends Game {
         updateZeldas();
         updateKilledElements(killedElements);
 
-        if (currentWave != GANON_WAVE) {
+        if (currentWave != FINAL_WAVE) {
             updateWave();
-        } else if (!ganonExist) {
+        } else if (!ganonExist && ZELDAS.isEmpty()) {
             ganonExist = true;
             ganonWave();
         }
@@ -155,7 +154,7 @@ public class ZeldaGame extends Game {
         for(StaticEntity killedElement : killedElements) {
             if(killedElement instanceof Zelda) {
                 ZELDAS.remove(killedElement);
-                if(ZELDAS.isEmpty()) {
+                if(ZELDAS.isEmpty() && currentWave != FINAL_WAVE) {
                     SOUND.playSoundEffect("sounds/waveFinished.wav");
                 }
             } else if(killedElement instanceof Arrow) {
@@ -171,11 +170,11 @@ public class ZeldaGame extends Game {
             for (int i = 0; i < numberOfZelda; ++i) {
                 ZELDAS.add(FACTORY.createZelda(PLAYER));
             }
+            currentWave++;
             numberOfZelda += 35;
         }
         if (ZELDAS.size() == 1) {
             cooldownWave = INITIAL_COOLDOWN_WAVE;
-            currentWave++;
         }
     }
 
@@ -192,13 +191,15 @@ public class ZeldaGame extends Game {
                 PLAYER.receiveDamage(ganon.attack());
             }
             wizard.update();
-            if (cooldownWave <= 0 && !wizard.isDead()) {
+            if (cooldownWave <= 0) {
                 FACTORY.ganonSpawn(ganon);
-                cooldownWave = GANON_COOLDOWN;
+                if (wizard.isDead()) {
+                    ganon.setCooldown(70);
+                }
+                cooldownWave = ganon.getCooldown();
             }
         } else {
             winner = true;
-            SOUND.playMusic("musics/victory.wav");
         }
     }
 }

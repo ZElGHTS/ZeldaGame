@@ -2,7 +2,6 @@ package cegepst.world;
 
 import cegepst.engine.Buffer;
 import cegepst.engine.entity.StaticEntity;
-import cegepst.world.Blockade;
 
 public class MapBorders extends StaticEntity {
 
@@ -16,7 +15,6 @@ public class MapBorders extends StaticEntity {
 
     @Override
     public void draw(Buffer buffer) {
-        //buffer.drawRectangle(x, y, 48, 48, Color.GREEN);
         blockade.draw(buffer);
     }
 }

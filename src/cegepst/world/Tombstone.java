@@ -2,7 +2,6 @@ package cegepst.world;
 
 import cegepst.engine.Buffer;
 import cegepst.engine.entity.StaticEntity;
-import cegepst.world.Blockade;
 
 public class Tombstone extends StaticEntity {
 
@@ -16,17 +15,8 @@ public class Tombstone extends StaticEntity {
         blockade.teleport(x, y);
     }
 
-    public void blockadeFromTop() {
-        blockade.teleport(x + 16, y + 64);
-    }
-
-    public void blockadeFromBottom() {
-        blockade.teleport(x + 16, y + 48);
-    }
-
     @Override
     public void draw(Buffer buffer) {
-        //buffer.drawRectangle(x, y, 48, 48, Color.GREEN);
         blockade.draw(buffer);
     }
 }
