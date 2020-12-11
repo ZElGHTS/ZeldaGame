@@ -33,7 +33,7 @@ public class Player extends ControllableEntity {
         moveAccordingToHandler();
         cycleFrames();
         updateCooldown();
-        clipped();
+        isClipped(this);
     }
 
     @Override
@@ -78,12 +78,12 @@ public class Player extends ControllableEntity {
         final int numberOfHearts = 10;
         int x = numberOfHearts;
         for (int i = 1; i <= numberOfHearts; ++i) {
-            buffer.drawHearts(LINK_FRAMES.get("heartsFrames")[EMPTY], x, 10);
+            buffer.drawHearts(LINK_FRAMES.get("heartsFrames")[EMPTY], x, 15);
             x += 20;
         }
         x = numberOfHearts;
         for (int i = 1; i <= (getHp() /numberOfHearts); ++i) {
-            buffer.drawHearts(LINK_FRAMES.get("heartsFrames")[FULL], x, 10);
+            buffer.drawHearts(LINK_FRAMES.get("heartsFrames")[FULL], x, 15);
             x += 20;
         }
         buffer.drawText("FPS: " + GameTime.getCurrentFps(), 740, 20, Color.WHITE);
@@ -115,13 +115,6 @@ public class Player extends ControllableEntity {
         cooldown--;
         if (cooldown <= 0) {
             cooldown = 0;
-        }
-    }
-
-    private void clipped() {
-        if ((x <= 390 && y <= 385) || (x >= 1740 && y <= 385)
-                || (x <= 390 && y >= 2772) || (x >= 1740 && y >= 2772)) {
-            teleport(1055, 1085);
         }
     }
 }

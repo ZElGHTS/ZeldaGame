@@ -11,7 +11,7 @@ import cegepst.engine.entity.StaticEntity;
 import cegepst.world.Map;
 import cegepst.world.MapBorders;
 
-import java.awt.*;
+import javax.sound.sampled.Clip;
 import java.util.ArrayList;
 
 public class ZeldaGame extends Game {
@@ -26,6 +26,7 @@ public class ZeldaGame extends Game {
     private final int INITIAL_COOLDOWN_WAVE = 500;
     private final int FINAL_WAVE = 3;
 
+    private Clip clip;
     private int cooldownWave = INITIAL_COOLDOWN_WAVE;
     private int numberOfZelda = 50;
     private int currentWave = 0;
@@ -96,7 +97,7 @@ public class ZeldaGame extends Game {
     @Override
     public void initialize() {
         RenderingEngine.getInstance().getScreen().hideCursor();
-        SOUND.playMusic("musics/letTheBattleBegin.wav");
+        clip = SOUND.playMusic("musics/letTheBattleBegin.wav");
     }
 
     @Override
@@ -136,10 +137,6 @@ public class ZeldaGame extends Game {
             if(zelda.hitBoxIntersectWith(PLAYER) && zelda.canAttack()) {
                 PLAYER.receiveDamage(zelda.attack());
             }
-            if ((zelda.getX() <= 390 && zelda.getY() <= 385) || (zelda.getX() >= 1740 && zelda.getY() <= 385)
-                    || (zelda.getX() <= 390 && zelda.getY() >= 2772) || (zelda.getX() >= 1740 && zelda.getY() >= 2772)) {
-                FACTORY.randomSpawn(zelda);
-            }
         }
     }
 
@@ -172,7 +169,8 @@ public class ZeldaGame extends Game {
     }
 
     private void ganonWave() {
-        SOUND.playSoundEffect("sounds/ganonEntrance.wav");
+        clip.close();
+        clip = SOUND.playMusic("musics/bossMusic.wav");
         ganon = FACTORY.createGanon();
         wizard = FACTORY.createWizard(ganon);
     }
@@ -192,6 +190,8 @@ public class ZeldaGame extends Game {
                 cooldownWave = ganon.getCooldown();
             }
         } else {
+            clip.close();
+            SOUND.playMusic("musics/victoryFanfare.wav");
             winner = true;
         }
     }

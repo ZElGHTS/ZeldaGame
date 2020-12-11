@@ -34,6 +34,7 @@ public class Zelda extends LivingEntity {
         moveToPlayer();
         cycleFrames();
         updateCooldown();
+        isClipped(this);
     }
 
     @Override
